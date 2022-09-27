@@ -20,6 +20,12 @@ contract Faucet {
        }
    }
 
+    function withdraw(uint withdrawAmount) external {
+        require(withdrawAmount > 1000000000000000000, "cannot withdraw this amount");
+        payable(msg.sender).transfer(withdrawAmount);
+
+    }
+
     function getAllFunders() public view returns(address[] memory){
         address[] memory _funders = new address[](numberOfFounders);
         for(uint i = 0; i < numberOfFounders; i++){
