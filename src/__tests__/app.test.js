@@ -4,5 +4,5 @@ import App from '../App.js';
 
 test('render h1 element', () => {
     render(<App />);
-    expect(screen.getByText('faucet')).toBeInTheDocument();
+    expect(screen.getByText('Current Balance: ETH')).toBeInTheDocument();
 });

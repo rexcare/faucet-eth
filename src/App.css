@@ -1,0 +1,26 @@
+.faucet-wrapper{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.faucet{
+
+}
+
+.balance-view{
+
+}
+
+#root {
+    height: 100%;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
