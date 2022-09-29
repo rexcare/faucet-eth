@@ -2,7 +2,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 import "./Owned.sol";
 import "./Logger.sol";
-import "./IFaucet.sol";
+import "./interfaces/IFaucet.sol";
 
 contract Faucet is Owned, Logger, IFaucet {
 
