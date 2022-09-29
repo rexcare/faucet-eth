@@ -7,6 +7,7 @@ import "./interfaces/IFaucet.sol";
 contract Faucet is Owned, Logger, IFaucet {
 
     uint numberOfFounders;
+    uint withdrawLimit = 1000000000000000000;
 
     mapping(address => bool) private funders;
     mapping(uint => address) private lutFunders;
@@ -15,31 +16,23 @@ contract Faucet is Owned, Logger, IFaucet {
         owner = newOwner;
     }
 
+    function changeWithdrawLimit(uint _withdrawLimit) external onlyOwner {
+            withdrawLimit = _withdrawLimit;
+    }
+
     modifier limitWithdraw(uint withdrawAmount){
-        require(withdrawAmount > 1000000000000000000, "cannot withdraw this amount");
+        require(withdrawAmount > withdrawLimit, "cannot withdraw this amount");
         _; // trigger function if require not
     }
 
-   receive() external payable {
-
-   }
-
-    function emitLog() public override pure returns(bytes32){
-        return "hello world";
+    function addFunds() override external payable {
+        address funder = msg.sender;
+        if(!funders[funder]){
+            uint index = numberOfFounders++;
+            funders[funder] = true;
+            lutFunders[index] = funder;
+        }
     }
-
-    function test() external onlyOwner{
-
-    }
-
-   function addFunds() override external payable {
-      address funder = msg.sender;
-       if(!funders[funder]){
-           uint index = numberOfFounders++;
-           funders[funder] = true;
-           lutFunders[index] = funder;
-       }
-   }
 
     function withdraw(uint withdrawAmount) override external limitWithdraw(withdrawAmount) {
         payable(msg.sender).transfer(withdrawAmount);
@@ -51,6 +44,15 @@ contract Faucet is Owned, Logger, IFaucet {
             _funders[i] = lutFunders[i];
         }
         return _funders;
+    }
+
+
+   receive() external payable {
+
+   }
+
+    function emitLog() public override pure returns(bytes32){
+        return "hello world";
     }
 
     function getFunderAtIndex(uint index) external view returns(address){
